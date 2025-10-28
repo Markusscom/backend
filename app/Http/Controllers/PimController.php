@@ -8,14 +8,10 @@ use App\Models\Product;
 
 class PIMController extends Controller
 {
-    // --- WEBSITES CRUD ---
-
-    // List all websites
     public function websites() {
         return json_encode(Website::with('products')->get());
     }
 
-    // Create website
     public function createWebsite(Request $request) {
         $validated = $request->validate([
             'name' => 'required|string',
@@ -30,7 +26,6 @@ class PIMController extends Controller
         ]);
     }
 
-    // Update website
     public function updateWebsite(Request $request, $id) {
         $website = Website::find($id);
         if (!$website) return json_encode(['errors' => 'Website not found']);
@@ -48,7 +43,6 @@ class PIMController extends Controller
         ]);
     }
 
-    // Delete website
     public function deleteWebsite($id) {
         $website = Website::find($id);
         if (!$website) return json_encode(['errors' => 'Website not found']);
@@ -58,9 +52,6 @@ class PIMController extends Controller
         return json_encode(['message' => 'Website deleted']);
     }
 
-    // --- PRODUCTS CRUD ---
-
-    // List products for a website
     public function products($website_id) {
         $website = Website::find($website_id);
         if (!$website) return json_encode(['errors' => 'Website not found']);
@@ -68,7 +59,6 @@ class PIMController extends Controller
         return json_encode($website->products);
     }
 
-    // Create product for a website
     public function createProduct(Request $request, $website_id) {
         $website = Website::find($website_id);
         if (!$website) return json_encode(['errors' => 'Website not found']);
@@ -88,7 +78,6 @@ class PIMController extends Controller
         ]);
     }
 
-    // Update product
     public function updateProduct(Request $request, $id) {
         $product = Product::find($id);
         if (!$product) return json_encode(['errors' => 'Product not found']);
@@ -108,7 +97,6 @@ class PIMController extends Controller
         ]);
     }
 
-    // Delete product
     public function deleteProduct($id) {
         $product = Product::find($id);
         if (!$product) return json_encode(['errors' => 'Product not found']);
